@@ -29,7 +29,7 @@ export function useState<S>(name: string, initialState?: S | (() => S)): [S, Dis
                 return state;
             }
         });
-    }, [name]);
+    }, [name, _logger, setState]);
 
     return [state, setStateWithLogging];
 }
