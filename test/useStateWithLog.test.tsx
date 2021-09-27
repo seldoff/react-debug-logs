@@ -5,9 +5,9 @@ it('should be awesome', () => {
     const Component = () => {
         useState('some_state');
         return <span></span>;
-    }
+    };
 
-    const component = renderer.create(<Component/>);
+    const component = renderer.create(<Component />);
 
     expect(component).toBeTruthy();
 });
