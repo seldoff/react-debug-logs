@@ -2,7 +2,7 @@ import {Dispatch, SetStateAction, useCallback, useState as useStateOrig} from 'r
 
 export type UseStateLogger = (name: string, prev: unknown, next: unknown) => void;
 
-const defaultLogger: UseStateLogger = (name: string, prev: unknown, next: unknown) => {
+export const defaultLogger: UseStateLogger = (name: string, prev: unknown, next: unknown) => {
     console.log(`[${name}]:`, prev, '→', next);
 };
 
@@ -12,9 +12,7 @@ export function setLogger(logger: UseStateLogger): void {
     _logger = logger;
 }
 
-export function useState<S = undefined>(name: string): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
 export function useState<S>(name: string, initialState?: S | (() => S)): [S, Dispatch<SetStateAction<S>>] {
-    _logger(name, null, null);
     const [state, setState] = useStateOrig<S>(initialState as any);
 
     const setStateWithLogging = useCallback<Dispatch<SetStateAction<S>>>(
@@ -23,14 +21,20 @@ export function useState<S>(name: string, initialState?: S | (() => S)): [S, Dis
                 if (typeof state === 'function') {
                     const callable = state as (prevState: S) => S;
                     const nextState = callable(prevState);
-                    _logger(name, prevState, nextState);
+                    if (prevState !== nextState) {
+                        _logger(name, prevState, nextState);
+                    }
                     return nextState;
                 } else {
-                    _logger(name, prevState, state);
+                    if (prevState !== state) {
+                        _logger(name, prevState, state);
+                    }
                     return state;
                 }
             });
         },
+        // react-hooks/exhaustive-deps complains about _logger being unnecessary. I disagree.
+        // If logger changes we should return a new setter func to the hook user.
         [name, _logger, setState],
     );
 
