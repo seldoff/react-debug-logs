@@ -2,12 +2,14 @@
     "env": {
         "browser": true,
         "node": true,
-        "es2021": true
+        "es2021": true,
+        "jest/globals": true
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "plugin:jest/recommended",
         "prettier"
     ],
     "parser": "@typescript-eslint/parser",
@@ -21,12 +23,11 @@
     "plugins": [
         "react",
         "react-hooks",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "jest"
     ],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
-        "react/react-in-jsx-scope": "off",
-        "@typescript-eslint/no-explicit-any": "off"
+        "react-hooks/exhaustive-deps": "warn"
     }
 }
