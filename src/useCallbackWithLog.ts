@@ -9,11 +9,11 @@ export const defaultLogger: UseCallbackLogger = (name: string, args: unknown[]) 
             break;
         }
         case 1: {
-            console.log(`[${name}] called:`, args[0]);
+            console.log(`[${name}] called with`, args[0]);
             break;
         }
         default: {
-            console.log(`[${name}] called:`, args);
+            console.log(`[${name}] called with`, args);
         }
     }
 };

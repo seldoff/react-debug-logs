@@ -3,7 +3,7 @@ import {Dispatch, SetStateAction, useCallback, useState as useStateOrig} from 'r
 export type UseStateLogger = (name: string, prev: unknown, next: unknown) => void;
 
 export const defaultLogger: UseStateLogger = (name: string, prev: unknown, next: unknown) => {
-    console.log(`[${name}]:`, prev, '→', next);
+    console.log(`[${name}] changed:`, prev, '→', next);
 };
 
 let _logger: UseStateLogger = defaultLogger;
@@ -35,6 +35,7 @@ export function useState<S>(name: string, initialState?: S | (() => S)): [S, Dis
         },
         // react-hooks/exhaustive-deps complains about _logger being unnecessary. I disagree.
         // If logger changes we should return a new setter func to the hook user.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [name, _logger, setState],
     );
 
