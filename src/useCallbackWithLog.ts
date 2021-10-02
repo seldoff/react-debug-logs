@@ -3,7 +3,19 @@ import {DependencyList, useCallback as useCallbackOrig} from 'react';
 export type UseCallbackLogger = (name: string, args: unknown[]) => void;
 
 export const defaultLogger: UseCallbackLogger = (name: string, args: unknown[]) => {
-    console.log(`[${name}] called:`, args);
+    switch (args.length) {
+        case 0: {
+            console.log(`[${name}] called`);
+            break;
+        }
+        case 1: {
+            console.log(`[${name}] called:`, args[0]);
+            break;
+        }
+        default: {
+            console.log(`[${name}] called:`, args);
+        }
+    }
 };
 
 let _logger: UseCallbackLogger = defaultLogger;

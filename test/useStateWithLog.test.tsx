@@ -22,10 +22,10 @@ describe('useState', () => {
     afterAll(() => setLogger(defaultLogger));
 
     it('should return same setter func', () => {
-        const {result} = renderHook(() => useState('s'));
-        const setter1 = result.current[1];
-        act(() => result.current[1](1));
-        const setter2 = result.current[1];
+        const rendered = renderHook(() => useState('s'));
+        const setter1 = rendered.result.current[1];
+        rendered.rerender();
+        const setter2 = rendered.result.current[1];
         expect(setter1).toBe(setter2);
     });
 

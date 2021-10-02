@@ -1,17 +1,20 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {useState} from '../src/useStateWithLog';
+import {useCallback} from '../src/useCallbackWithLog';
 
 const Counter = () => {
     const [counter, setCounter] = useState('counter', 0);
     const [history, setHistory] = useState<string[]>('history', []);
 
-    const increase = useCallback(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const increase = useCallback('increase', () => {
         setCounter((c) => c + 1);
         setHistory((h) => [...h, 'Increase']);
     }, []);
 
-    const decrease = useCallback(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const decrease = useCallback('decrease', () => {
         setCounter((c) => c - 1);
         setHistory((h) => [...h, 'Decrease']);
     }, []);
