@@ -1,32 +1,37 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import ReactDOM from 'react-dom';
-import {useState} from '../src/useStateWithLog';
-import {useCallback} from '../src/useCallbackWithLog';
+import {logState} from '../src/logState';
+import {logCallback} from '../src/logCallback';
 
 const Counter = () => {
-    const [counter, setCounter] = useState('counter', 0);
-    const [history, setHistory] = useState<string[]>('history', []);
+    const [counter, setCounter] = logState('counter', useState(0));
+    const [history, setHistory] = logState('history', useState<string[]>([]));
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const increase = useCallback('increase', () => {
-        setCounter((c) => c + 1);
-        setHistory((h) => [...h, 'Increase']);
-    }, []);
+    const increase = logCallback(
+        'increase',
+        useCallback(() => {
+            setCounter((c) => c + 1);
+            setHistory((h) => [...h, 'Increase']);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
+    );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const decrease = useCallback('decrease', () => {
-        setCounter((c) => c - 1);
-        setHistory((h) => [...h, 'Decrease']);
-    }, []);
+    const decrease = logCallback(
+        'decrease',
+        useCallback(() => {
+            setCounter((c) => c - 1);
+            setHistory((h) => [...h, 'Decrease']);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
+    );
 
     return (
         <div>
             <div>Click on the buttons and observe state changes in the developer console.</div>
-            <p/>
+            <p />
             {counter}&nbsp;
             <button onClick={increase}>Increase</button>&nbsp;
             <button onClick={decrease}>Decrease</button>
-
             {history.map((a, i) => (
                 <div key={i}>{a}</div>
             ))}

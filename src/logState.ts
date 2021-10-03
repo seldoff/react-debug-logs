@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useCallback, useState as useStateOrig} from 'react';
+import {Dispatch, SetStateAction, useCallback, useState} from 'react';
 
 export type UseStateLogger = (name: string, prev: unknown, next: unknown) => void;
 
@@ -12,9 +12,12 @@ export function setLogger(logger: UseStateLogger): void {
     _logger = logger;
 }
 
-export function useState<S>(name: string, initialState?: S | (() => S)): [S, Dispatch<SetStateAction<S>>] {
-    const [state, setState] = useStateOrig<S>(initialState as any);
+export type UseStateTuple<S> = [S, Dispatch<SetStateAction<S>>];
 
+export function logState<S>(name: string, stateTuple: UseStateTuple<S>): UseStateTuple<S> {
+    const [state, setState] = stateTuple;
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const setStateWithLogging = useCallback<Dispatch<SetStateAction<S>>>(
         (state) => {
             setState((prevState) => {
@@ -36,8 +39,14 @@ export function useState<S>(name: string, initialState?: S | (() => S)): [S, Dis
         // react-hooks/exhaustive-deps complains about _logger being unnecessary. I disagree.
         // If logger changes we should return a new setter func to the hook user.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [name, _logger, setState],
+        [name, _logger, setState]
     );
 
     return [state, setStateWithLogging];
+}
+
+export function useStateLog<S>(name: string, initialState?: S | (() => S)): UseStateTuple<S> {
+    // Cast to `any` required because our signature for initialState `S | (() => S) | undefined` is not compatible with any
+    // of two useState overloads defined in `react/index.d.ts`.
+    return logState(name, useState<S>(initialState as any));
 }
