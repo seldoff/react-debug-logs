@@ -1,5 +1,5 @@
 {
-  "name": "react-hooks-log",
+  "name": "react-debug-logs",
   "version": "1.0.0",
   "description": "Wrappers for standard React hooks that log to console when the hook is 'executed'. E.g. state from useState() is changed or callback from useCallback() is called.",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/seldoff/react-hooks-log.git"
+    "url": "git+https://github.com/seldoff/react-debug-logs.git"
   },
   "keywords": [
     "react",
@@ -28,9 +28,9 @@
   "author": "seldoff (https://github.com/seldoff)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/seldoff/react-hooks-log/issues"
+    "url": "https://github.com/seldoff/react-debug-logs/issues"
   },
-  "homepage": "https://github.com/seldoff/react-hooks-log#readme",
+  "homepage": "https://github.com/seldoff/react-debug-logs#readme",
   "peerDependencies": {
     "react": "^16.8.0 || ^17"
   },
