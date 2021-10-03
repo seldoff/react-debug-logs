@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import React from 'react';
+import React, {ExoticComponent} from 'react';
 import {defaultLogger, logProps, setLogger} from '../src/logProps';
 import {render} from '@testing-library/react';
 import PropTypes from 'prop-types';
@@ -16,7 +16,7 @@ describe('defaultLogger', () => {
 });
 
 describe('logProps', () => {
-    let logs: {name: string; props: unknown; context?: unknown}[] = [];
+    let logs: {name: string; props: unknown}[] = [];
     beforeEach(() => {
         logs = [];
         setLogger((name, props) => logs.push({name, props}));
@@ -54,5 +54,15 @@ describe('logProps', () => {
         const Wrapped = logProps('Component', Component);
         const rendered = render(<Wrapped text="foo" />);
         expect(rendered.baseElement.textContent).toBe('foo');
+    });
+
+    it('should support components wrapped by React.memo', () => {
+        // eslint-disable-next-line react/display-name
+        const Component: React.FC<{text: string}> = React.memo((props: {text: string}) => <span>{props.text}</span>);
+        const Wrapped = logProps('Component', Component);
+        const rendered = render(<Wrapped text="foo" />);
+        expect((Wrapped as ExoticComponent).$$typeof.description).toBe('react.memo');
+        expect(rendered.baseElement.textContent).toBe('foo');
+        expect(logs).toStrictEqual([]);
     });
 });
