@@ -1,7 +1,8 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import {logState} from '../src/logState';
 import {logCallback} from '../src/logCallback';
+import {logEffect} from '../src/logEffect';
 
 const Counter = () => {
     const [counter, setCounter] = logState('counter', useState(0));
@@ -24,6 +25,10 @@ const Counter = () => {
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])
     );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(logEffect('counter effect',() => {
+    }), [counter]);
 
     return (
         <div>

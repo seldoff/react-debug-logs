@@ -33,7 +33,7 @@ export function logCallback<T extends Callback>(name: string, callback: T): T {
             _logger(name, args);
             return callback(...args);
         }) as T,
-        [callback, _logger]
+        [callback, _logger, name]
     );
 }
 
