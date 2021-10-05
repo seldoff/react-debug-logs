@@ -2,7 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy';
-import replace from 'rollup-plugin-replace';
+import replace from '@rollup/plugin-replace';
 
 export default {
     input: 'examples/index.tsx',
