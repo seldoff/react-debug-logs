@@ -20,8 +20,8 @@
     "src"
   ],
   "scripts": {
-    "build": "rimraf dist & rollup -c & api-extractor run",
-    "update-api-report": "rimraf dist & rollup -c & api-extractor run --local",
+    "build": "rimraf dist && rollup -c && api-extractor run",
+    "update-api-report": "rimraf dist && rollup -c && api-extractor run --local",
     "test": "jest",
     "examples-build": "rollup -c examples/rollup.config.js",
     "examples-watch": "concurrently \"rollup -c examples/rollup.config.js -w\" \"serve examples/build\" "
